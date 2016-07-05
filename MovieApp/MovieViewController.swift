@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import AFNetworking
 
 class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var movies = [NSDictionary]()
-    
+    var baseUrl = "http://image.tmdb.org/t/p/w45"
     @IBOutlet weak var movieTable: UITableView!
     
     override func viewDidLoad() {
@@ -64,9 +65,13 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell") as! MovieTableViewCell!
-        
+
         cell.titleLabel?.text = movies[indexPath.row]["title"] as? String
         cell.overviewLabel?.text = movies[indexPath.row]["overview"] as? String
+//
+        var posterImageUrl = NSURL(string: baseUrl + (movies[indexPath.row]["poster_path"] as? String)!)
+        cell.posterImage.setImageWithURL(posterImageUrl!)
+
         return cell
     }
     
