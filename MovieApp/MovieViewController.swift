@@ -61,6 +61,9 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         })
         task.resume()
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        movieTable.insertSubview(refreshControl, atIndex: 0)
     }
 
     func initLayout(){
@@ -92,6 +95,42 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         return cell
     }
     
+    //  MARK: - RefreshControl
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        
+        //  Get data from movie API
+        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+        let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        let request = NSURLRequest(
+            URL: url!,
+            cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
+            timeoutInterval: 10)
+        
+        let session = NSURLSession(
+            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+            delegate: nil,
+            delegateQueue: NSOperationQueue.mainQueue()
+        )
+        
+        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,
+                                                                     completionHandler: { (dataOrNil, response, error) in
+                                                                        if let data = dataOrNil {
+                                                                            if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
+                                                                                data, options:[]) as? NSDictionary {
+                                                                                print("response: \(responseDictionary)")
+                                                                                self.movies = responseDictionary["results"] as! [NSDictionary]
+                                                                                self.movieTable.reloadData()
+                                                                                refreshControl.endRefreshing()
+                                                                            }
+                                                                        } else {
+                                                                            self.networkError.hidden = false
+                                                                            refreshControl.endRefreshing()
+                                                                        }
+        })
+        
+        task.resume()
+    }
+    
     
     
     // MARK: - Navigation
@@ -108,8 +147,6 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         let detailViewController = segue.destinationViewController as! DetailViewController
         
         detailViewController.movie = movie
-//        detailViewController.posterUrl = posterUrl
-        
     }
     
 
