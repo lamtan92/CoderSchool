@@ -117,12 +117,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E0DB45DC1D2C1836005967BE /* Build configuration list for PBXNativeTarget "MovieApp" */;
 			buildPhases = (
-				0E11EBD14C113A615B617ACB /* 📦 Check Pods Manifest.lock */,
+				0E11EBD14C113A615B617ACB /* [CP] Check Pods Manifest.lock */,
 				E0DB45C61D2C1835005967BE /* Sources */,
 				E0DB45C71D2C1835005967BE /* Frameworks */,
 				E0DB45C81D2C1835005967BE /* Resources */,
-				BDC6174B0D3EA064C052C42B /* 📦 Embed Pods Frameworks */,
-				D1D1770AEEBFF20FF6BCD5C6 /* 📦 Copy Pods Resources */,
+				BDC6174B0D3EA064C052C42B /* [CP] Embed Pods Frameworks */,
+				D1D1770AEEBFF20FF6BCD5C6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -181,14 +181,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E11EBD14C113A615B617ACB /* 📦 Check Pods Manifest.lock */ = {
+		0E11EBD14C113A615B617ACB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,14 +196,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		BDC6174B0D3EA064C052C42B /* 📦 Embed Pods Frameworks */ = {
+		BDC6174B0D3EA064C052C42B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,14 +211,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MovieApp/Pods-MovieApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D1D1770AEEBFF20FF6BCD5C6 /* 📦 Copy Pods Resources */ = {
+		D1D1770AEEBFF20FF6BCD5C6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

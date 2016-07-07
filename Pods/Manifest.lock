@@ -14,13 +14,21 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - ChameleonFramework/Default (2.1.0)
+  - ChameleonFramework/Swift (2.1.0):
+    - ChameleonFramework/Default
+  - MBProgressHUD (0.9.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
+  - ChameleonFramework/Swift
+  - MBProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
 
-PODFILE CHECKSUM: 5bc06d85f70d6ac77d7aef6213543c1139041297
+PODFILE CHECKSUM: c9c275886573d9c0a64473d3ceebe637f8654b59
 
-COCOAPODS: 1.0.0.rc.2
+COCOAPODS: 1.0.1

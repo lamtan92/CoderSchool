@@ -13,8 +13,10 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var posterImage: UIImageView!
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var detailViews: UIScrollView!
 
     var movie: NSDictionary!
+    @IBOutlet weak var dateReleaseLabel: UILabel!
     var posterUrl: NSURL!
     var baseUrl = "https://image.tmdb.org/t/p/original"
     
@@ -29,12 +31,13 @@ class DetailViewController: UIViewController {
         posterImage.setImageWithURL(posterUrl)
         
         titleLabel.text = movie["title"] as? String
+        dateReleaseLabel.text = movie["release_date"] as? String
         overviewLabel.text = movie["overview"] as? String
         
     }
     
     func initLayout(){
-        overviewLabel.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
+        detailViews.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
         
     }
 

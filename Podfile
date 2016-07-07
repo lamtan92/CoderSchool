@@ -10,4 +10,6 @@ target 'MovieApp' do
   
   # Pods for MovieApp
   pod 'AFNetworking', '~> 3.0'
+  pod 'MBProgressHUD'
+  pod 'ChameleonFramework/Swift'
 end

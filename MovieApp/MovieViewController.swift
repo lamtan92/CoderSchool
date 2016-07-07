@@ -8,6 +8,8 @@
 
 import UIKit
 import AFNetworking
+import MBProgressHUD
+import ChameleonFramework
 
 class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -15,12 +17,14 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
     var baseUrl = "http://image.tmdb.org/t/p/w45"
     var posterUrl:NSURL?
     
+    @IBOutlet weak var networkError: UILabel!
     @IBOutlet weak var movieTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        initLayout()
         movieTable.dataSource = self
         movieTable.delegate = self
         
@@ -38,6 +42,8 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             delegateQueue: NSOperationQueue.mainQueue()
         )
         
+        //  Show progress
+        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,
                                                                      completionHandler: { (dataOrNil, response, error) in
                                                                         if let data = dataOrNil {
@@ -46,13 +52,22 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
                                                                                 print("response: \(responseDictionary)")
                                                                                 self.movies = responseDictionary["results"] as! [NSDictionary]
                                                                                 self.movieTable.reloadData()
+                                                                                MBProgressHUD.hideHUDForView(self.view, animated: true)
                                                                             }
+                                                                        } else {
+                                                                            self.networkError.hidden = false
+                                                                            MBProgressHUD.hideHUDForView(self.view, animated: true)
                                                                         }
         })
         task.resume()
         
     }
 
+    func initLayout(){
+        self.view.backgroundColor = UIColor.flatLimeColor()
+        movieTable.backgroundColor = UIColor.flatLimeColor()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
