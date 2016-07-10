@@ -25,6 +25,7 @@ class MovieViewController: UIViewController {
     
     let refreshControl = UIRefreshControl()
     let refreshControl1 = UIRefreshControl()
+    var searchController : UISearchController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +60,19 @@ class MovieViewController: UIViewController {
         self.view.backgroundColor = UIColor.flatLimeColor()
         movieTable.backgroundColor = UIColor.flatLimeColor()
         movieCollection.backgroundColor = UIColor.flatLimeColor()
+        
+        self.searchController = UISearchController(searchResultsController:  nil)
+        
+        self.searchController.searchResultsUpdater = self
+        self.searchController.delegate = self
+        self.searchController.searchBar.delegate = self
+        
+        self.searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.dimsBackgroundDuringPresentation = true
+        
+        self.navigationItem.titleView = searchController.searchBar
+        
+        self.definesPresentationContext = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,6 +100,7 @@ class MovieViewController: UIViewController {
         
         let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: { (dataOrNil, response, error) in
                                                                         if let data = dataOrNil {
+                                                                            self.networkError.hidden = true
                                                                             if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
                                                                                 data, options:[]) as? NSDictionary {
                                                                                 print("response: \(responseDictionary)")
@@ -99,6 +114,8 @@ class MovieViewController: UIViewController {
                                                                         } else {
                                                                             self.networkError.hidden = false
                                                                             MBProgressHUD.hideHUDForView(self.view, animated: true)
+                                                                            self.refreshControl.endRefreshing()
+                                                                            self.refreshControl1.endRefreshing()
                                                                         }
             
             
@@ -154,8 +171,24 @@ extension MovieViewController: UITableViewDataSource, UITableViewDelegate {
         cell.titleLabel?.text = movies[indexPath.row]["title"] as? String
         cell.overviewLabel?.text = movies[indexPath.row]["overview"] as? String
         
-        posterUrl = NSURL(string: baseUrl + (movies[indexPath.row]["poster_path"] as? String)!)
-        cell.posterImage.setImageWithURL(posterUrl!)
+        let imageUrlRequest = NSURLRequest(URL: NSURL(string: baseUrl + (movies[indexPath.row]["poster_path"] as? String)!)!)
+//        posterUrl = NSURL(string: baseUrl + (movies[indexPath.row]["poster_path"] as? String)!)
+//        cell.posterImage.setImageWithURL(posterUrl!)
+        cell.posterImage.setImageWithURLRequest(imageUrlRequest, placeholderImage: nil, success: { (imageUrlRequest, imageResponse, image) in
+            if imageResponse != nil {
+                print("Image was NOT cached, fade in image")
+                cell.posterImage.alpha = 0.0
+                cell.posterImage.image = image
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    cell.posterImage.alpha = 1.0
+                })
+            } else {
+                print("Image was cached so just update the image")
+                cell.posterImage.image = image
+            }
+            }) { (imageUrlRequest, imageResponse, image) in
+                print("Image can't be load")
+        }
         
         return cell
     }
@@ -183,5 +216,12 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
         
         return cell
     }
+}
+
+extension MovieViewController: UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating {
+    func updateSearchResultsForSearchController(searchController: UISearchController){
+        
+    }
+    
 }
 
