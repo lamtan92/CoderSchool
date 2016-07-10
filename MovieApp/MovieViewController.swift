@@ -210,8 +210,26 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("MovieCollectionViewCell", forIndexPath: indexPath) as! MovieCollectionViewCell
 
-        posterUrl = NSURL(string: baseUrl + (movies[indexPath.row]["poster_path"] as? String)!)
-        cell.posterImage.setImageWithURL(posterUrl!)
+//        posterUrl = NSURL(string: baseUrl + (movies[indexPath.row]["poster_path"] as? String)!)
+//        cell.posterImage.setImageWithURL(posterUrl!)
+        
+        //  Fade in image
+        let imageUrlRequest = NSURLRequest(URL: NSURL(string: baseUrl + (movies[indexPath.row]["poster_path"] as? String)!)!)
+        cell.posterImage.setImageWithURLRequest(imageUrlRequest, placeholderImage: nil, success: { (imageUrlRequest, imageResponse, image) in
+            if imageResponse != nil {
+                print("Image was NOT cached, fade in image")
+                cell.posterImage.alpha = 0.0
+                cell.posterImage.image = image
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    cell.posterImage.alpha = 1.0
+                })
+            } else {
+                print("Image was cached so just update the image")
+                cell.posterImage.image = image
+            }
+        }) { (imageUrlRequest, imageResponse, image) in
+            print("Image can't be load")
+        }
         
         return cell
     }
