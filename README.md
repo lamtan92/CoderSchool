@@ -32,7 +32,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/aG9gyyM.gifv' title='MOVIE APP DEMO' width='' alt='MOVIE APP DEMO' />
+![Demo](demo Movie App.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
