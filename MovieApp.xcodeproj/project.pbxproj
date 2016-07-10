@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A83761C3C8B7C4CA8429163C /* Pods_MovieApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7EBE864D0A0D63C7A33924 /* Pods_MovieApp.framework */; };
+		E0A09E671D30BE1F004C77BD /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A09E661D30BE1F004C77BD /* MovieCollectionViewCell.swift */; };
 		E0DB45CE1D2C1835005967BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DB45CD1D2C1835005967BE /* AppDelegate.swift */; };
 		E0DB45D31D2C1835005967BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0DB45D11D2C1835005967BE /* Main.storyboard */; };
 		E0DB45D51D2C1835005967BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0DB45D41D2C1835005967BE /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		2C7EBE864D0A0D63C7A33924 /* Pods_MovieApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0A09E661D30BE1F004C77BD /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		E0DB45CA1D2C1835005967BE /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0DB45CD1D2C1835005967BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E0DB45D21D2C1835005967BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				E0DB45E11D2C1A88005967BE /* MovieTableViewCell.swift */,
+				E0A09E661D30BE1F004C77BD /* MovieCollectionViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 			files = (
 				E0DB45CE1D2C1835005967BE /* AppDelegate.swift in Sources */,
 				E0DB45E01D2C1A45005967BE /* MovieViewController.swift in Sources */,
+				E0A09E671D30BE1F004C77BD /* MovieCollectionViewCell.swift in Sources */,
 				E0DB45E21D2C1A88005967BE /* MovieTableViewCell.swift in Sources */,
 				E0DB45E61D2DF37B005967BE /* DetailViewController.swift in Sources */,
 			);

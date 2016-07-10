@@ -22,6 +22,8 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tabBarController?.tabBar.hidden = true
 
         // set up layout
         initLayout()
@@ -33,7 +35,7 @@ class DetailViewController: UIViewController {
         titleLabel.text = movie["title"] as? String
         dateReleaseLabel.text = movie["release_date"] as? String
         overviewLabel.text = movie["overview"] as? String
-        
+        overviewLabel.sizeToFit()
     }
     
     func initLayout(){

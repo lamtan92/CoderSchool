@@ -16,6 +16,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        // Set up the Now Playing View Controller
+        let nowPlayingNavifationController = storyboard.instantiateViewControllerWithIdentifier("MoviesNavigationController") as! UINavigationController
+        let nowPlayingViewController = nowPlayingNavifationController.topViewController as! MovieViewController
+        nowPlayingViewController.navigationItem.title = "NOW PLAYING MOVIES"
+        nowPlayingViewController.endpoint = "now_playing"
+        nowPlayingNavifationController.tabBarItem.title = "Now Plaing"
+        nowPlayingNavifationController.tabBarItem.image = UIImage(named: "nowPlaying")
+        
+        // Set up the Top Rated View Controller
+        let topRatedNavifationController = storyboard.instantiateViewControllerWithIdentifier("MoviesNavigationController") as! UINavigationController
+        let topRatedViewController = topRatedNavifationController.topViewController as! MovieViewController
+        topRatedViewController.navigationItem.title = "TOP RATED MOVIES"
+        topRatedViewController.endpoint = "top_rated"
+        topRatedNavifationController.tabBarItem.title = "Top Rated"
+        topRatedNavifationController.tabBarItem.image = UIImage(named: "topRated")
+        
+        // Set up the Tab Bar Controller to have two tabs
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [nowPlayingNavifationController, topRatedNavifationController]
+        tabBarController.tabBar.translucent = true
+        
+        // Make the Tab Bar Controller the root view controller
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
+        
+        
         return true
     }
 

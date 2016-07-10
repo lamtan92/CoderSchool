@@ -15,12 +15,16 @@ class MovieViewController: UIViewController {
   
     @IBOutlet weak var networkError: UILabel!
     @IBOutlet weak var movieTable: UITableView!
+    @IBOutlet weak var movieCollection: UICollectionView!
+    @IBOutlet weak var segment: UISegmentedControl!
     
     var movies = [NSDictionary]()
-    var baseUrl = "http://image.tmdb.org/t/p/w45"
+    var baseUrl = "http://image.tmdb.org/t/p/w342"
     var posterUrl:NSURL?
+    var endpoint = ""
     
     let refreshControl = UIRefreshControl()
+    let refreshControl1 = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,18 +34,31 @@ class MovieViewController: UIViewController {
         movieTable.dataSource = self
         movieTable.delegate = self
         
+        movieCollection.dataSource = self
+        movieCollection.delegate = self
         
         //  Show progress
         MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadData()
         
         refreshControl.addTarget(self, action: #selector(loadData), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl1.addTarget(self, action: #selector(loadData), forControlEvents: UIControlEvents.ValueChanged)
+        
         movieTable.insertSubview(refreshControl, atIndex: 0)
+        movieCollection.insertSubview(refreshControl1, atIndex: 0)
+        
+        segment.setTitle("List", forSegmentAtIndex: 0)
+        segment.setTitle("Gird", forSegmentAtIndex: 1)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.tabBarController?.tabBar.hidden = false
     }
 
     func initLayout(){
         self.view.backgroundColor = UIColor.flatLimeColor()
         movieTable.backgroundColor = UIColor.flatLimeColor()
+        movieCollection.backgroundColor = UIColor.flatLimeColor()
     }
     
     override func didReceiveMemoryWarning() {
@@ -55,7 +72,7 @@ class MovieViewController: UIViewController {
         
         //  Get data from movie API
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = NSURL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        let url = NSURL(string: "https://api.themoviedb.org/3/movie/\(endpoint)?api_key=\(apiKey)")
         let request = NSURLRequest(
             URL: url!,
             cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
@@ -67,26 +84,40 @@ class MovieViewController: UIViewController {
             delegateQueue: NSOperationQueue.mainQueue()
         )
         
-        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,
-                                                                     completionHandler: { (dataOrNil, response, error) in
+        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: { (dataOrNil, response, error) in
                                                                         if let data = dataOrNil {
                                                                             if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
                                                                                 data, options:[]) as? NSDictionary {
                                                                                 print("response: \(responseDictionary)")
                                                                                 self.movies = responseDictionary["results"] as! [NSDictionary]
                                                                                 self.movieTable.reloadData()
+                                                                                self.movieCollection.reloadData()
                                                                                 self.refreshControl.endRefreshing()
+                                                                                self.refreshControl1.endRefreshing()
                                                                                 MBProgressHUD.hideHUDForView(self.view, animated: true)
                                                                             }
                                                                         } else {
                                                                             self.networkError.hidden = false
                                                                             MBProgressHUD.hideHUDForView(self.view, animated: true)
                                                                         }
+            
+            
         })
         
         task.resume()
 
     }
+    
+    @IBAction func segmentAction(sender: UISegmentedControl) {
+        if(sender.selectedSegmentIndex == 0){
+            movieCollection.hidden = true
+            movieTable.hidden = false
+        } else {
+            movieCollection.hidden = false
+            movieTable.hidden = true
+        }
+    }
+    
     
     //  MARK: - Navigation
 
@@ -96,12 +127,15 @@ class MovieViewController: UIViewController {
         // Pass the selected object to the new view controller.
         
 //        let cell = sender as! UITableViewCell
-        let indexPath = movieTable.indexPathForSelectedRow
-        let movie = movies[(indexPath?.row)!]
-        
         let detailViewController = segue.destinationViewController as! DetailViewController
         
-        detailViewController.movie = movie
+        if(movieCollection.hidden){
+            let indexPath = movieTable.indexPathForSelectedRow
+            detailViewController.movie = movies[(indexPath?.row)!]
+        } else{
+            let ip = movieCollection.indexPathsForSelectedItems()![0]
+            detailViewController.movie = movies[(ip.row)]
+        }
     }
 }
 
@@ -131,3 +165,23 @@ extension MovieViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }
+
+extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
+        return movies.count
+        
+    }
+    
+    // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
+    @available(iOS 6.0, *)
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
+        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("MovieCollectionViewCell", forIndexPath: indexPath) as! MovieCollectionViewCell
+
+        posterUrl = NSURL(string: baseUrl + (movies[indexPath.row]["poster_path"] as? String)!)
+        cell.posterImage.setImageWithURL(posterUrl!)
+        
+        return cell
+    }
+}
+
