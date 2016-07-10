@@ -60,7 +60,7 @@ class MovieViewController: UIViewController {
         self.view.backgroundColor = UIColor.flatLimeColor()
         movieTable.backgroundColor = UIColor.flatLimeColor()
         movieCollection.backgroundColor = UIColor.flatLimeColor()
-        
+        /*
         self.searchController = UISearchController(searchResultsController:  nil)
         
         self.searchController.searchResultsUpdater = self
@@ -72,7 +72,7 @@ class MovieViewController: UIViewController {
         
         self.navigationItem.titleView = searchController.searchBar
         
-        self.definesPresentationContext = true
+        self.definesPresentationContext = true*/
     }
     
     override func didReceiveMemoryWarning() {
@@ -171,9 +171,8 @@ extension MovieViewController: UITableViewDataSource, UITableViewDelegate {
         cell.titleLabel?.text = movies[indexPath.row]["title"] as? String
         cell.overviewLabel?.text = movies[indexPath.row]["overview"] as? String
         
+        //  Fade in image
         let imageUrlRequest = NSURLRequest(URL: NSURL(string: baseUrl + (movies[indexPath.row]["poster_path"] as? String)!)!)
-//        posterUrl = NSURL(string: baseUrl + (movies[indexPath.row]["poster_path"] as? String)!)
-//        cell.posterImage.setImageWithURL(posterUrl!)
         cell.posterImage.setImageWithURLRequest(imageUrlRequest, placeholderImage: nil, success: { (imageUrlRequest, imageResponse, image) in
             if imageResponse != nil {
                 print("Image was NOT cached, fade in image")
