@@ -17,20 +17,20 @@ class DetailViewController: UIViewController {
 
     var movie: NSDictionary!
     @IBOutlet weak var dateReleaseLabel: UILabel!
-    var posterUrl: NSURL!
+    var posterUrl: URL!
     var baseUrl = "https://image.tmdb.org/t/p/original"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tabBarController?.tabBar.hidden = true
+        self.tabBarController?.tabBar.isHidden = true
 
         // set up layout
         initLayout()
         
         //  Create url for poster image
-        posterUrl = NSURL(string: baseUrl + (movie["poster_path"] as! String))
-        posterImage.setImageWithURL(posterUrl)
+        posterUrl = URL(string: baseUrl + (movie["poster_path"] as! String))
+        posterImage.setImageWith(posterUrl)
         
         titleLabel.text = movie["title"] as? String
         dateReleaseLabel.text = movie["release_date"] as? String
@@ -39,7 +39,7 @@ class DetailViewController: UIViewController {
     }
     
     func initLayout(){
-        detailViews.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
+        detailViews.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         
     }
 
