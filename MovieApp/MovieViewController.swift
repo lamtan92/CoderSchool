@@ -6,6 +6,7 @@
 //  Copyright © 2016 Tan Lam. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import AFNetworking
 import MBProgressHUD
@@ -60,7 +61,7 @@ class MovieViewController: UIViewController {
         self.view.backgroundColor = UIColor.flatLime()
         movieTable.backgroundColor = UIColor.flatLime()
         movieCollection.backgroundColor = UIColor.flatLime()
-        /*
+        
         self.searchController = UISearchController(searchResultsController:  nil)
         
         self.searchController.searchResultsUpdater = self
@@ -72,7 +73,7 @@ class MovieViewController: UIViewController {
         
         self.navigationItem.titleView = searchController.searchBar
         
-        self.definesPresentationContext = true*/
+        self.definesPresentationContext = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,7 +86,7 @@ class MovieViewController: UIViewController {
     func loadData(){
         
         //  Get data from movie API
-        let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
+        let apiKey = "657ef619d073734b47890f964e20dd10"
         let url = URL(string: "https://api.themoviedb.org/3/movie/\(endpoint)?api_key=\(apiKey)")
         let request = URLRequest(
             url: url!,
@@ -235,6 +236,11 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
 extension MovieViewController: UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController){
+//        let searchPredicate = NSPredicate(format: "SELF like %@", searchController.searchBar.text!)
+        movies = movies.filter{($0["title"] as! String).contains(searchController.searchBar.text!)}
+       
+        movieTable.reloadData()
+        movieCollection.reloadData()
         
     }
     

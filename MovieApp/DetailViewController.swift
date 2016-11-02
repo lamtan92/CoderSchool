@@ -13,7 +13,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var posterImage: UIImageView!
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var detailViews: UIScrollView!
+    @IBOutlet weak var detailViews: UIView!
 
     var movie: NSDictionary!
     @IBOutlet weak var dateReleaseLabel: UILabel!
