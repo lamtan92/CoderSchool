@@ -47,7 +47,11 @@ class DetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
     
+    @IBAction func didDragDetailView(_ sender: UIPanGestureRecognizer) {
+       
+    }
 
     /*
     // MARK: - Navigation
